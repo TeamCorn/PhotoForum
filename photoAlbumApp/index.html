@@ -1,0 +1,59 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <title>photoAlbumApp</title>
+    <meta name="description" content="photo album">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/photoAlbumApp.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="lib/bootstrap.min.js"></script>
+    <script src="lib/jquery.noty.packaged.min.js"></script>
+    <!--scripts for ajax requests to parse.com-->
+    <script src="js/requester.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/login-register.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!--navigation-->
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" id="home-page">TEAM CORN</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#" id="aboutUs-page">About Us</a>
+                    </li>
+                    <li class="active"><a href="#" id="login-page">Login</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <input type="text" class="form-control col-lg-8" placeholder="Search">
+                </form>
+            </div>
+        </div>
+        <!--main page where we load the different partial.html pages-->
+        <div class="row" id="main-page">
+            <!--home page loaded upon firs site visit-->
+            <div class="jumbotron">
+                <h1>HOME</h1>
+                <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                <p><a class="btn btn-primary btn-lg">Learn more</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

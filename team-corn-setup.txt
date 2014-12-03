@@ -1,0 +1,11 @@
+Email: team.corn.softuni@gmail.com	
+username: team.corn.softuni
+password: teamCornSoftuni2014
+
+pars.com account
+username: TeamCorn /  team.corn.softuni@gmail.com
+password: teamCornSoftuni2014
+PARSE_APP_ID = rsxzvSeovqQxl6weoimkwl1E8JnvBEzYEQh7oKTl 
+PARSE_REST_API_KEY =  adMvMtZgee0wzmVfDFtDt64Rw4qCAehZjiGVfdov
+
+bootstrap theme: http://bootswatch.com/united/
