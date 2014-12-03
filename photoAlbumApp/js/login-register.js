@@ -1,18 +1,18 @@
-(function() {
-    $(function() {
-       // register new user with an ajax post request
-        $('#register-user-button').click(function(){
+(function () {
+    $(function () {
+        // register new user with an ajax post request
+        $('#register-user-button').click(function () {
             // get registration data from input fields
             var $username = $('#register-username').val();
             var $password = $('#register-password').val();
             var $aboutme = $('#register-aboutme').val();
             // check if input is not empty or whitespacess string
-            if (/^\s*$/.test($username) || /^\s*$/.test($password)) { 
+            if (/^\s*$/.test($username) || /^\s*$/.test($password)) {
                 alert('please fill all data');
                 return;
             }
             // create json object with ne user data
-             var data = {
+            var data = {
                 'username': $username,
                 'password': $password,
                 'aboutme': $aboutme,
@@ -23,17 +23,17 @@
         });
 
 
-        function userAddedSuccess(data){
-             alert('successfully registered');
+        function userAddedSuccess(data) {
+            alert('successfully registered');
         }
 
         // login for registered users
-        $('#login-button').click(function(){
+        $('#login-button').click(function () {
             // get registration data from input fields
             var $username = $('#login-username').val();
             var $password = $('#login-password').val();
             // check if input is not empty or whitespacess string
-            if (/^\s*$/.test($username) || /^\s*$/.test($password)) {         
+            if (/^\s*$/.test($username) || /^\s*$/.test($password)) {
                 alert('please fill all data');
                 return;
             }
@@ -42,8 +42,8 @@
                 loginSuccess, ajaxError);
         });
 
-        function loginSuccess(data){
-             alert('login successfull');
+        function loginSuccess(data) {
+            $('#main-page').load('./partialHTML/user-page.html');
         }
 
         // noty function for succssfuly added item
