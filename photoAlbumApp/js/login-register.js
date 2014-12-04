@@ -39,7 +39,7 @@ $(function () {
             alert('please fill all data');
             return;
         }
-        // make the ajax request to pars.com 
+        // make the ajax request to parse.com 
         ajaxRequester.get('https://api.parse.com/1/login?username=' + $username + '&password=' + $password,
             loginSuccess, ajaxError);
     });
@@ -72,11 +72,13 @@ $(function () {
     }
 
     // Logout function
-    function logout() {
-        
-    }
+    $('#logout-page').click(function () {
+        $('#main-page').load('./partialHTML/login-register.html');
 
-    
+        $('#login-page').hide();
+        $('#logout-page').show();
+
+    });
 
 }());
 
