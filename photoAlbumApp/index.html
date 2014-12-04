@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!DOCTYPE html>
 
 <head>
     <meta charset="utf-8">
@@ -16,7 +16,7 @@
     <!--scripts for ajax requests to parse.com-->
     <script src="js/requester.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/login-register.js"></script>
+    <script src="js/login-register.js" defer></script>
 </head>
 
 <body>
@@ -35,7 +35,9 @@
                 <ul class="nav navbar-nav">
                     <li><a href="#" id="aboutUs-page">About Us</a>
                     </li>
-                    <li class="active"><a href="#" id="login-page">Login</a>
+                    <li class="active" id="loginLi">
+                        <a href="#" id="login-page">Login</a>
+                        <a href="#" id="logout-page">Logout</a>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-right">
