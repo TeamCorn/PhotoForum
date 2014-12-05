@@ -1,8 +1,5 @@
 $(function () {
-    // Before login the Logout button will be hidden
-    $('#logout-page').hide();
-
-    // register new user with an ajax post request
+    // register new user 
     $('#register-user-button').click(function () {
         // get registration data from input fields
         var $username = $('#register-username').val();
@@ -10,7 +7,7 @@ $(function () {
         var $aboutme = $('#register-aboutme').val();
         // check if input is not empty or whitespacess string
         if (/^\s*$/.test($username) || /^\s*$/.test($password)) {
-            alert('please fill all data');
+            fillAllDataError();
             return;
         }
         // create json object with ne user data
@@ -19,49 +16,50 @@ $(function () {
             'password': $password,
             'aboutme': $aboutme,
         };
-        // make the ajax request to pars.com 
+        // make the ajax request to parse.com 
         ajaxRequester.post("https://api.parse.com/1/users", data,
-            userAddedSuccess, ajaxError);
+            userRegisterSuccess, ajaxError);
     });
 
-
-    function userAddedSuccess(data) {
-        alert('successfully registered');
+    function userRegisterSuccess(data) {
+        // load the user-registerd-success.html page and infrom the user about the photo album options
+        $('#main-page').load('./partialHTML/user-registered-success.html');     
     }
 
     // login for registered users
-    $('#login-button').click(function () {
+    $('#login-button').click(function () {      
         // get registration data from input fields
         var $username = $('#login-username').val();
         var $password = $('#login-password').val();
         // check if input is not empty or whitespacess string
         if (/^\s*$/.test($username) || /^\s*$/.test($password)) {
-            alert('please fill all data');
+            fillAllDataError();
             return;
         }
-        // make the ajax request to parse.com 
+
         ajaxRequester.get('https://api.parse.com/1/login?username=' + $username + '&password=' + $password,
-            loginSuccess, ajaxError);
+            loginSuccess, ajaxError);       
     });
 
     function loginSuccess(data) {
+        // store user data(name, id, session token) send from the response in the sessionStorage
+        userSession.login(data);
+        // load the home page and greet the logged user
         $('#main-page').load('./partialHTML/user-page.html');
-        // After successful login hide the login button and show the logout button
-        $('#login-page').hide();
-        $('#logout-page').show();
+        $('#login-page').text('Logout');
     }
 
-    // noty function for succssfuly added item
-    function addedSuccessfully() {
+    // noty function for unfilled user data
+    function fillAllDataError() {
         noty({
-            text: 'Item added successfully',
-            type: 'success',
+            text: 'Please fill out all input fields.',
+            type: 'warning',
             layout: 'topCenter',
             timeout: 2000
         });
     }
 
-    // noty function for and AJAX request error
+    // noty function for an AJAX request error
     function ajaxError() {
         noty({
             text: 'An error occured.',
@@ -70,15 +68,6 @@ $(function () {
             timeout: 2000
         });
     }
-
-    // Logout function
-    $('#logout-page').click(function () {
-        $('#main-page').load('./partialHTML/login-register.html');
-
-        $('#login-page').hide();
-        $('#logout-page').show();
-
-    });
 
 }());
 
