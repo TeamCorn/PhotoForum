@@ -46,7 +46,6 @@ $(function () {
         userSession.login(data);
         // load the home page and greet the logged user
         $('#main-page').load('./partialHTML/user-page.html');
-        $('#login-page').text('Logout');
     }
 
     // noty function for unfilled user data

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/photoAlbumApp.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="lib/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="lib/jquery.noty.packaged.min.js"></script>
 </head>
 
@@ -35,14 +35,21 @@
                     <li>
                         <a href="#" id="login-page">Login</a>
                     </li>
+                    <!--dropdwon to be shown only when user is signed-->
+                    <li class="dropdown" id="user-dropdown-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-name">User<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="user-profile">Profile</a>
+                            </li>
+                            <li><a href="#" id="user-logout">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control col-lg-8" placeholder="Search">
-                </form>
             </div>
         </div>
         <!--main page where we load the different partial.html pages-->
-        <div class="row" id="main-page">     
+        <div class="row" id="main-page">
             <!--home page loaded upon first site visit-->
             <div class="jumbotron">
                 <h1>HOME</h1>
