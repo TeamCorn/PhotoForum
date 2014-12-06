@@ -90,6 +90,8 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+*.suo
+*.sln
 
 # Guidance Automation Toolkit
 *.gpState
@@ -216,4 +218,8 @@ pip-log.txt
 .mr.developer.cfg
 
 server.js
-
+.ntvs_analysis.dat
+package.json
+photoAlbumApp.jmconfig
+photoAlbumApp.njsproj
+obj/
