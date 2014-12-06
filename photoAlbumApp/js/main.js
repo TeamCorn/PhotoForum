@@ -3,11 +3,9 @@
         // upon loading the page check if the user is already logged in
         // and navigate him to his home page
         $('#user-dropdown-menu').hide();
-        
         var currentUser = userSession.getCurrentUser();
         if (currentUser) {
             $('#main-page').load('./partialHTML/user-page.html');
-            $('#album-folders-holder').html('');
             $('#user-dropdown-menu').show();
             $('#login-page').hide();
             $('#user-name').text(currentUser.username);
