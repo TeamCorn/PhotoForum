@@ -30,9 +30,54 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="js\laod-user-data.js" />
+    <Compile Include="js\login-register.js" />
+    <Compile Include="js\main.js" />
+    <Compile Include="js\requester.js" />
+    <Compile Include="js\userSession.js" />
+    <Compile Include="lib\bootstrap.js" />
+    <Compile Include="lib\bootstrap.min.js" />
+    <Compile Include="lib\jquery-2.1.1.min.js" />
+    <Compile Include="lib\jquery.noty.packaged.min.js" />
     <Compile Include="server.js" />
+    <Content Include=".idea\.name" />
+    <Content Include=".idea\encodings.xml" />
+    <Content Include=".idea\misc.xml" />
+    <Content Include=".idea\modules.xml" />
+    <Content Include=".idea\photoAlbumApp.iml" />
+    <Content Include=".idea\scopes\scope_settings.xml" />
+    <Content Include=".idea\vcs.xml" />
+    <Content Include=".idea\workspace.xml" />
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-theme.css.map" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.css.map" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\photoAlbumApp.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="index.html" />
     <Content Include="package.json" />
+    <Content Include="partialHTML\about-us.html" />
+    <Content Include="partialHTML\home-page.html" />
+    <Content Include="partialHTML\login-register.html" />
+    <Content Include="partialHTML\user-page.html" />
+    <Content Include="partialHTML\user-registered-success.html" />
+    <Content Include="photoAlbumApp.jmconfig" />
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".idea\" />
+    <Folder Include=".idea\scopes\" />
+    <Folder Include="css\" />
+    <Folder Include="fonts\" />
+    <Folder Include="js\" />
+    <Folder Include="lib\" />
+    <Folder Include="partialHTML\" />
+    <Folder Include="PhotoForum\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
   <ProjectExtensions>
