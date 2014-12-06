@@ -1,0 +1,10 @@
+{
+  "name": "photoAlbumApp",
+  "version": "0.0.0",
+  "description": "photoAlbumApp",
+  "main": "server.js",
+  "author": {
+    "name": "Petar",
+    "email": ""
+  }
+}
