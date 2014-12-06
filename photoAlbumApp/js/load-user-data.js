@@ -9,33 +9,69 @@
             $('#login-page').hide();
             $('#user-name').text(username);
             $('#user-wellcome-message').text('Hello there ' + username);
+            $('#album-folders-holder').html('');
         }
 
         // load  all albums from database
-        ajaxRequester.get('https://api.parse.com/1/classes/Album', albumLoadSuccess, ajaxError);
+        ajaxRequester.get('https://api.parse.com/1/classes/Album',
+            albumLoadSuccess, ajaxError);
 
-        // display albums on user page
+        // display albums title on user page
         function albumLoadSuccess(data) {
             for (var a in data.results) {
                 //get each album's data
                 var album = data.results[a];
                 var albumName = album.name;
                 var albumCategoryID = album.category['objectId'];
-                //get album gategory name by its ID
-                ajaxRequester.get('https://api.parse.com/1/classes/Category/' + albumCategoryID, categoryLoadSuccess, ajaxError);
+                var albumAthorID = album.author['objectId'];
 
                 var $albumDiv = $('<div class="panel panel-primary col-md-3 album-folder">' +
                     '<div class="panel-heading"><h3 class="panel-title">Album: <a href="#"> ' +
-                    albumName + '<a/></h3></div><div class="panel-body">Category: <a href="#">' +
-                    albumCategoryID + '<a/></div></div>');
+                    albumName + '<a/></h3></div>');
+                //add  data atrributes to albumDiv
+                $('div').attr('data-info', '222');
+                $albumDiv.attr('category-id', albumCategoryID);
+                $albumDiv.attr('author-id', albumAthorID);
 
                 // add created album to album-div-holder
                 $('#album-folders-holder').append($albumDiv);
             }
         }
-        // TODO-add name to the albumDiv
+
+        // load  all categories from database
+        ajaxRequester.get('https://api.parse.com/1/classes/Category',
+            categoryLoadSuccess, ajaxError);
+
+        // display albums category on user page
         function categoryLoadSuccess(data) {
-            var category = data.name;
+            for (var c in data.results) {
+                var category = data.results[c];
+                var categoryName = category.name;
+                var categoryID = category.objectId;
+
+                var $albumCategory = $('<div class="panel-body">Category: <a href="#"> ' +
+                    categoryName + '<a/></div>');
+                // $('#' + categoryID).append($albumCategory);
+                $("div").find("[category-id='" + categoryID + "']").append($albumCategory);
+            }
+        }
+
+        // load  all users(authors) from database
+        ajaxRequester.get('https://api.parse.com/1/users',
+            usersLoadSuccess, ajaxError);
+
+        // display album's author(user) on user page
+        function usersLoadSuccess(data) {
+            for (var a in data.results) {
+                var author = data.results[a];
+                var authorName = author.username;
+                var authorID = author.objectId;
+
+                var $albumAuthor = $('<div class="panel-body">Author: <a href="#"> ' +
+                    authorName + '<a/></div>');
+                $('.' + authorID).append($albumAuthor);
+                $("div").find("[author-id='" + authorID + "']").append($albumAuthor);
+            }
         }
 
         // noty function for an AJAX request error
