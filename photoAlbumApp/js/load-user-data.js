@@ -44,7 +44,8 @@
                 // get user(authors) with current id
                 ajaxRequester.get('https://api.parse.com/1/users/' + albumAthorID,
                     usersLoadSuccess, ajaxError);
-
+				
+				// get album's rating and post it
                 $albumDiv.append('<div class="panel-body albumRating-holder">Rating: ' + albumRating + '</div>');
 
                 // add created album to album-div-holder
