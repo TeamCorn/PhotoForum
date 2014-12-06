@@ -8,7 +8,7 @@
             $('#user-dropdown-menu').show();
             $('#login-page').hide();
             $('#user-name').text(username);
-            $('#user-wellcome-message').text('Hello there ' + username);
+            $('#user-wellcome-message').text('Hello there, ' + username);
         }
 
         // load  all albums from database
@@ -22,10 +22,12 @@
             for (var a in data.results) {
                 //get each album's data
                 var album = data.results[a];
+                //console.log(album);
                 var albumName = album.name;
                 var albumCategoryID = album.category['objectId'];
                 var albumAthorID = album.author['objectId'];
-
+                var albumRating = album.rating;
+                
                 var $albumDiv = $('<div class="panel panel-primary col-md-3 album-folder">' +
                     '<div class="panel-heading"><h3 class="panel-title">Album: <a href="#"> ' +
                     albumName + '<a/></h3></div>');
@@ -34,7 +36,7 @@
                 $('div').attr('data-info', '222');
                 $albumDiv.attr('category-id', albumCategoryID);
                 $albumDiv.attr('author-id', albumAthorID);
-
+                
                 // get category with current id
                 ajaxRequester.get('https://api.parse.com/1/classes/Category/' + albumCategoryID,
                     categoryLoadSuccess, ajaxError);
@@ -42,6 +44,8 @@
                 // get user(authors) with current id
                 ajaxRequester.get('https://api.parse.com/1/users/' + albumAthorID,
                     usersLoadSuccess, ajaxError);
+
+                $albumDiv.append('<div class="panel-body albumRating-holder">Rating: ' + albumRating + '</div>');
 
                 // add created album to album-div-holder
                 $('#album-folders-holder').append($albumDiv);
