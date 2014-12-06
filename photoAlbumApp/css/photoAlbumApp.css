@@ -1,0 +1,10 @@
+/*css for album folders in user-page*/
+
+/*#album-folders-holder{
+	margin: 0 60px;
+	padding: 0 auto;
+}*/
+
+.album-folder {
+  margin: 5px;
+}

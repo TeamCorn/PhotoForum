@@ -53,17 +53,18 @@ $(function () {
         noty({
             text: 'Please fill out all input fields.',
             type: 'warning',
-            layout: 'topCenter',
+            layout: 'center',
             timeout: 2000
         });
     }
 
     // noty function for an AJAX request error
-    function ajaxError() {
+    function ajaxError(error) {
+        var errorMessage = error.responseJSON;
         noty({
-            text: 'An error occured.',
+            text: 'Error: ' + errorMessage.error,
             type: 'error',
-            layout: 'topCenter',
+            layout: 'center',
             timeout: 2000
         });
     }
