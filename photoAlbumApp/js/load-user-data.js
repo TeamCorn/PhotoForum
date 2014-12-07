@@ -47,8 +47,18 @@
                     usersLoadSuccess, ajaxError);
 
                 // get album's rating and post it
-                $albumDiv.append('<div class="panel-body-div albumRating-holder">Rating: ' +
-                    albumRating + '</div>');
+                var ratingDiv =
+                    '<div class="panel-body-div albumViews-holder">Rating:</div>' +
+                    '<div class="progress albumViews-holder">' +
+                        '<div class="progress-bar progress-bar-success" role="progressbar" ' +
+                            'aria-valuenow="' + albumRating + '"' +
+                            'aria-valuemin="0" aria-valuemax="100" style="width:' +
+                            albumRating + '%">' + albumRating +
+                        '</div>' +
+                    '</div>';
+
+                $albumDiv.append(ratingDiv);
+
                 $albumDiv.append('<div class="panel-body-div albumViews-holder">Views: ' +
                     albumViews + '</div>');
 
