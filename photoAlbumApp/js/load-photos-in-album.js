@@ -17,17 +17,42 @@
             'where={"album":{"__type":"Pointer","className":"Album","objectId":"' +
             albumID + '"}}', photosLoadSuccess, ajaxError);
 
-         // display photos on  page
+        // display photos on  page
         function photosLoadSuccess(data) {
             for (var p in data.results) {
-            	var photo = data.results[p];
-            	var photoURL = photo.file['url'];
+                var photo = data.results[p];
+                var photoURL = photo.file['url'];
+                var photoName = photo.name;
+                var photoVotes = photo.votes;
 
-            	var $photoDiv = $('<div class="well col-md-2 photo-div"></div>');
-            	var $photoImage = $('<img src="' + photoURL + '" class="photo-image">');
+                // create a photoDiv
+                var $photoDiv = $('<div class="well col-md-2 photo-div"></div>');
+                var $photoImage = $('<a href="#"><img src="' + photoURL + '" class="photo-image"></a>');
+                var $photoTitle = $('<div><h4>' + photoName + '</h4></div>');
+                var $photoVotes = $('<div>Votes:' + photoVotes + '</div>');
+                var $voteButton = $('<div><a href="#" class="btn btn-primary btn-xs">Vote+</a></div>');
 
-            	$photoDiv.append($photoImage);
-            	$('#album-photos-container').append($photoDiv);
+                // append photDiv to current page
+                $photoDiv.append($photoImage);
+                $photoDiv.append($photoTitle);
+                $photoDiv.append($photoVotes);
+                $photoDiv.append($voteButton);
+                $('#album-photos-container').append($photoDiv);
+
+                // add eventhandler on photo image for pop-up in full-size
+                $('.photo-image').click(function() {
+                    var src = $(this).attr('src');
+                    var $photoPopUpDiv = $('<div class="col-md-6 photo-popup-div" style="position: absolute">' +
+                        '<div class="well"><button type="button" class="btn btn-default close-photo">Close</button>' +
+                        '<img src="' + src + '" class="image-in-popupDiv"></div>' + '</div>');
+                  
+                      $('#page-container').append($photoPopUpDiv);
+                    //add eventhandler on photo-close-button
+                    $('.close-photo').click(function() {
+                        $('.photo-popup-div').remove();
+                        $('.photo-popup-div').css('display','none');
+                    });
+                });
             }
         }
 

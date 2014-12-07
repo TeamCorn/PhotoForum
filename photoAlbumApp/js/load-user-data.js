@@ -58,7 +58,7 @@
                     '</div>';
 
                 $albumDiv.append(ratingDiv);
-
+                
                 $albumDiv.append('<div class="panel-body-div albumViews-holder">Views: ' +
                     albumViews + '</div>');
 
