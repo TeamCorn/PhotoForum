@@ -2,11 +2,16 @@
 <div class="row">
     <div class="col-md-8" id="user-page">
         <h1 class="text-primary" id="user-wellcome-message"></h1>
-        <p class="lead">What have you benn up to? Wellcome back to your photo album.</p>
+
+        <p class="lead">What have you been up to? Welcome back to your photo album.</p>
     </div>
 </div>
 <!--albums-->
 <h1 class="text-primary">Albums</h1>
 <div class="row" id="album-folders-holder">
 </div>
-<script src="js/load-user-data.js"></script>
+<script>
+    commentUtil.generateCommentDom(document.body);
+</script>
+
+<!--<script src="js/load-user-data.js"></script>-->

@@ -1,0 +1,115 @@
+/**
+ * Dao class used to make database queries.
+ */
+var commentDao = (function () {
+    var commentsUrl = 'https://api.parse.com/1/classes/Comment/';
+
+    var getAllCommentsForPhoto = function (photoId) {
+        //TODO: Not implemented
+    };
+
+    var getSingleCommentForPhoto = function (photoId) {
+        //TODO: Not implemented
+    };
+
+    var getTopRatedCommentForPhoto = function (photoId) {
+        //TODO: Not implemented
+    };
+
+    var addComment = function (commentText, photoId, userId) {
+        var commentData = {
+            "data": commentText,
+            "photo": {
+                "__type": "Pointer",
+                "className": "Photo",
+                "objectId": photoId
+            },
+            "user": {
+                "__type": "Pointer",
+                "className": "_User",
+                "objectId": userId
+            }
+        };
+
+        ajaxRequester.post(commentsUrl, commentData,
+            function addedCommentSuccessfully() {
+                alert('Comment added successfully.');
+            },
+            function errorAddingComment() {
+                alert('Error while adding comment.');
+            });
+    };
+
+    return {
+        getAllCommentsForPhoto: getAllCommentsForPhoto,
+        getSingleCommentForPhoto: getSingleCommentForPhoto,
+        getTopRatedCommentForPhoto: getTopRatedCommentForPhoto,
+        addComment: addComment
+    };
+
+}());
+
+/**
+ * Utility class to help build UI related stuff.
+ */
+var commentUtil = (function () {
+    var generateCommentDom = function (parent) {
+        //Create text area for comment text.
+        var commentTextArea = $('<textarea />');
+        $(commentTextArea).addClass('form-control');
+        commentTextArea.attr('plceholder', "Enter comment here...");
+        commentTextArea.attr('rows', "2");
+        commentTextArea.attr('cols', "50");
+
+        // Crate add button to add the comment.
+        var addCommentButton = $('<button />');
+        addCommentButton.text('Add comment');
+        $(addCommentButton).addClass('btn btn-default btn-sm');
+        addCommentButton.click(function () {
+            var commentText = commentAction.getCommentFromTextArea(commentTextArea);
+            if (commentText) {
+                $(commentTextArea).val('');
+                commentAction.addComment(commentText);
+            }
+        });
+
+        // Append text area and button to a wrapper.
+        var commentWrapper = $('<div />');
+        commentTextArea.appendTo(commentWrapper);
+        addCommentButton.appendTo(commentWrapper);
+
+        commentWrapper.appendTo(parent);
+    };
+
+    return {
+        generateCommentDom: generateCommentDom
+    }
+}());
+
+/**
+ * Action class that will contain the logic for creating comments and will use commentUtil and commentDao.
+ */
+var commentAction = (function () {
+    var addComment = function (commentText) {
+        var currentUser = userSession.getCurrentUser();
+        //TODO: Should pass the photo for which the comment is and the user who wrote the comment.
+
+        //TODO: Get actual photo id and pass it.
+        var photoId = '7YMYikZ0NX';
+        //Id of currently logged user - the user that writes the comment.
+        var userId = currentUser['objectId'];
+        commentDao.addComment(commentText, photoId, userId);
+    };
+
+    var getCommentFromTextArea = function (commentTextArea) {
+        var commentText = $(commentTextArea).val();
+        if (commentText) {
+            return encodeURI(commentText);
+        }
+    };
+
+    return {
+        addComment: addComment,
+        getCommentFromTextArea: getCommentFromTextArea
+    }
+}());
