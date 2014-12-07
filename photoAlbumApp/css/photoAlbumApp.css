@@ -7,4 +7,22 @@
 
 .album-folder {
   margin: 5px;
+  padding-bottom: 15px;
+}
+
+.panel-heading {
+	margin-bottom: 15px;
+}
+
+.panel-body-div {
+	padding-bottom: 5px;
+}
+
+.photo-div{
+	margin: 5px;
+}
+
+.photo-image {
+	width:130px;
+	height: 130px;
 }
