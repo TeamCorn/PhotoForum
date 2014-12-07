@@ -35,3 +35,14 @@
     float: right;
     margin-bottom: 5px;
 }
+
+.comment-photo {
+    float: left;
+    margin-right: 5px;
+}
+
+#comment {
+    border-radius: 4px;
+    border-style: groove;
+    height: 39px;
+}

@@ -33,10 +33,22 @@ var commentDao = (function () {
 
         ajaxRequester.post(commentsUrl, commentData,
             function addedCommentSuccessfully() {
-                alert('Comment added successfully.');
+                // alert('Comment added successfully.');
+                noty({
+                    text: 'Comment added successfully.',
+                    type: 'success',
+                    layout: 'center',
+                    timeout: 2000
+                });
             },
             function errorAddingComment() {
-                alert('Error while adding comment.');
+                // alert('Error while adding comment.');
+                noty({
+                    text: 'Error while adding comment.',
+                    type: 'error',
+                    layout: 'center',
+                    timeout: 2000
+                });
             });
     };
 
@@ -54,6 +66,7 @@ var commentDao = (function () {
  */
 var commentUtil = (function () {
     var generateCommentDom = function (parent) {
+        /*
         //Create text area for comment text.
         var commentTextArea = $('<textarea />');
         $(commentTextArea).addClass('form-control');
@@ -79,6 +92,7 @@ var commentUtil = (function () {
         addCommentButton.appendTo(commentWrapper);
 
         commentWrapper.appendTo(parent);
+        */
     };
 
     return {
@@ -90,12 +104,10 @@ var commentUtil = (function () {
  * Action class that will contain the logic for creating comments and will use commentUtil and commentDao.
  */
 var commentAction = (function () {
-    var addComment = function (commentText) {
+    var addComment = function (commentText, photoId) {
         var currentUser = userSession.getCurrentUser();
-        //TODO: Should pass the photo for which the comment is and the user who wrote the comment.
 
-        //TODO: Get actual photo id and pass it.
-        var photoId = '7YMYikZ0NX';
+        //console.log(photoId);
         //Id of currently logged user - the user that writes the comment.
         var userId = currentUser['objectId'];
         commentDao.addComment(commentText, photoId, userId);
