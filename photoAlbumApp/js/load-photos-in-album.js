@@ -19,6 +19,7 @@
 
         // display photos on  page
         function photosLoadSuccess(data) {
+			$('#album-photos-container').html('');
             for (var p in data.results) {
                 var photo = data.results[p];
                 var photoURL = photo.file['url'];
