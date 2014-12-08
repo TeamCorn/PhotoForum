@@ -1,8 +1,22 @@
 (function() {
     $(function() {
+        //hide add photo album
+        $('#add-photo').hide();
+
         // get current user 
         var currentUser = userSession.getCurrentUser();
         var userName = currentUser.username;
+
+        // show button if current user is album's author
+        if (userName === $('#main-page').attr('album-author')) {
+            $('#add-photo').show();
+        }
+
+        // navigate user to home-user-page on clicking back to albums
+        $('#back-to-albums').click(function() {
+            $('#album-folders-holder').html('');
+            $('#main-page').load('./partialHTML/user-page.html');
+        });
 
         var albumID = $('#main-page').attr('album-id');
 
@@ -35,6 +49,7 @@
                 var $photoLink = $('<a href="#">');
                 var $photoImage = $('<img src="' + photoURL + '" class="photo-image" />');
                 $photoImage.attr('data-id', photo.objectId);
+                $photoDiv.attr('data-id', photo.objectId);
 
                 $photoLink.append($photoImage);
                 var $photoTitle = $('<div><h4>' + photoName + '</h4></div>');
@@ -73,7 +88,7 @@
                     var photoId = $(this).parent().find('img.photo-image').attr('data-id');
                     ajaxRequester.delete('https://api.parse.com/1/classes/Photo/' + photoId,
                         null,
-                        photoDeletingSuccess,
+                        photoDeletingSuccess(photoId),
                         ajaxError);
                 });
 
@@ -120,13 +135,15 @@
                 });
             }
 
-            function photoDeletingSuccess() {
+            function photoDeletingSuccess(photoId) {
                 noty({
                     text: 'The picture was successfully deleted!',
                     type: 'success',
                     layout: 'center',
                     timeout: 2000
                 });
+
+                $("div").find("[data-id='" + photoId + "']").remove();
             }
         }
 

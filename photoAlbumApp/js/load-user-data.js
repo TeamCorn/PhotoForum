@@ -1,7 +1,8 @@
 (function() {
     $(function() {
-        // hide new album button
+        // hide new album button and clear album div holder
         $('#new-album-dialog').hide();
+        $('#album-folders-holder').html('');
 
         // get the curent user and display his data
         var currentUser = userSession.getCurrentUser();
