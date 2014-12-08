@@ -38,7 +38,7 @@
 
                 $photoLink.append($photoImage);
                 var $photoTitle = $('<div><h4>' + photoName + '</h4></div>');
-                var $photoVotes = $('<div>Votes:' + photoVotes + '</div>');
+                var $photoVotes = $('<div>Votes:<span class="votes">' + photoVotes + '</span></div>');
                 var $voteButton = $('<a href="#" class="btn btn-primary btn-xs vote-button">Vote+</a>');
 
                 // append photDiv to current page
@@ -56,13 +56,25 @@
                 $('#album-photos-container').append($photoDiv);
 
                 $('a.vote-button').click(function() {
-                    // TODO
-                    console.log('voted');
+                    var $parent = $(this).parent();
+                    var votes = Number($parent.find('span.votes').text());
+                    var photoId = $parent.find('img.photo-image').attr('data-id');
+                    var data = {
+                        'votes': votes + 1
+                    };
+                    ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
+                        data,
+                        photoVotingSuccess,
+                        ajaxError);
+                    // $parent.find('span.votes').text(votes + 1);
                 });
 
                 $('a.delete-button').click(function() {
-                    // TODO
-                    console.log('deleted');
+                    var photoId = $(this).parent().find('img.photo-image').attr('data-id');
+                    ajaxRequester.delete('https://api.parse.com/1/classes/Photo/' + photoId,
+                        null,
+                        photoDeletingSuccess,
+                        ajaxError);
                 });
 
 
@@ -96,6 +108,24 @@
                         commentAction.addComment(comment, photoId);
                         $('#comment').val('');
                     });
+                });
+            }
+
+            function photoVotingSuccess() {
+                noty({
+                    text: 'Your vote was successfully accepted!',
+                    type: 'success',
+                    layout: 'center',
+                    timeout: 2000
+                });
+            }
+
+            function photoDeletingSuccess() {
+                noty({
+                    text: 'The picture was successfully deleted!',
+                    type: 'success',
+                    layout: 'center',
+                    timeout: 2000
                 });
             }
         }
