@@ -102,12 +102,19 @@
 
         // display album's author(user) on user page
         function usersLoadSuccess(data) {
+            // checked that this function is caller correct number of times
             var authorName = data.username;
             var authorID = data.objectId;
             var $albumAuthor = $('<div id="authorID" class="panel-body-div">Author: <a href="#"> ' +
                 authorName + '<a/></div>');
-            $("div").find("[author-id='" + authorID + "']").append($albumAuthor);
-            $("div").find("[author-id='" + authorID + "']").attr('author-name', authorName);
+            var $currentDiv = $("div").find("[author-id='" + authorID + "']");
+
+            if ($currentDiv.length > 1) { // more than one album with same author
+                $currentDiv.children('div[id="authorID"]').remove();
+            }
+            
+            $currentDiv.append($albumAuthor);
+            $currentDiv.attr('author-name', authorName);
         }
 
         function votingSucces() {
