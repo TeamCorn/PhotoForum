@@ -67,7 +67,7 @@ var albumID = $('#main-page').attr('album-id');
           
           // create the photo object to be posted 
             var sendData = {
-                'name': "photo",
+                'name': $('#photo-name').val(),
                 "file": {
                     "__type": "File",
                     "name": filename,
