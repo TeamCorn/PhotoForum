@@ -128,19 +128,21 @@ $(function () {
 
         $('a.vote-button').click(function () {
             var $parent = $(this).parent();
-            var votes = Number($parent.find('span.votes').text());
+            var votesSpan = $parent.find('span.votes');
+            var votes = Number(votesSpan.text()) + 1;
             var photoId = $parent.find('img.photo-image').attr('data-id');
             var data = {
-                'votes': votes + 1
+                'votes': votes
             };
             ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
                 data,
-                photoVotingSuccess,
+                photoVotingSuccess(votesSpan, votes),
                 ajaxError);
             // $parent.find('span.votes').text(votes + 1);
         });
 
-        function photoVotingSuccess() {
+        function photoVotingSuccess(votesSpan, numVotes) {
+            votesSpan.text(numVotes);
             noty({
                 text: 'Your vote was successfully accepted!',
                 type: 'success',
