@@ -96,9 +96,15 @@
                 // add eventhandler on photo image for pop-up in full-size
                 $('.photo-image').click(function() {
                     var src = $(this).attr('src');
+                    var photoId = $(this).attr('data-id');
+
                     var $photoPopUpDiv = $('<div class="col-md-6 photo-popup-div" style="position: absolute">' +
-                        '<div class="well"><button type="button" class="btn btn-default close-photo">Close</button>' +
-                        '<img src="' + src + '" class="image-in-popupDiv"><h4>Leave a comment</h4>' +
+                        '<div class="well"><button type="button" class="btn btn-default download-photo">Download</button>'+
+                        '<button type="button" class="btn btn-default close-photo">Close</button>' +
+                        // uncoment the following comment in order to name the files, but only if you upload only JPEGs
+                        '<a href="' + src + '" download' /* + '="' + photoId + '.jpg"' */ + '>' +
+                        '<img src="' + src + '" class="image-in-popupDiv" /></a>' +
+                        '<h4>Leave a comment</h4>' +
                         '<div><textarea class="form-control" rows="3" id="comment"></textarea>' +
                         '<button type="button" class="btn btn-default comment-photo">Post</button></div>' +
                         '</div></div>');
@@ -110,7 +116,6 @@
                         $('.photo-popup-div').css('display', 'none');
                     });
 
-                    var photoId = $(this).attr('data-id');
                     //add eventhandler on photo-comment-button
                     $('.comment-photo').click(function() {
                         var comment = $('#comment').val();
@@ -122,6 +127,16 @@
 
                         commentAction.addComment(comment, photoId);
                         $('#comment').val('');
+                    });
+
+                    //add eventhandler on photo-download-button
+                    $('.download-photo').click(function() {
+                        noty({
+                            text: 'Click the picture to download it :)',
+                            type: 'information',
+                            layout: 'center',
+                            timeout: 1000
+                        });
                     });
                 });
             }
