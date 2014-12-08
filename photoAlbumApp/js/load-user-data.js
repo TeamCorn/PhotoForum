@@ -99,7 +99,7 @@ $(function () {
         };
 
         ajaxRequester.post("https://api.parse.com/1/classes/Album", data,
-            albumAddedSuccess, ajaxError);
+            albumAddedSuccess(data), ajaxError);
 
         $('#inputTitle').val('');
         $('#inputCategory').val('');
@@ -111,6 +111,8 @@ $(function () {
     });
 
     function albumAddedSuccess(data) {
+        var albumDiv = albumUtil.crateSingleAlbumDom(data);
+        $('#album-folders-holder').append(albumDiv);
         noty({
             text: 'Album created successfully',
             type: 'success',
