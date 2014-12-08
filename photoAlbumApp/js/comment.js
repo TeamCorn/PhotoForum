@@ -5,7 +5,12 @@ var commentDao = (function () {
     var commentsUrl = 'https://api.parse.com/1/classes/Comment/';
 
     var getAllCommentsForPhoto = function (photoId) {
-        //TODO: Not implemented
+        ajaxRequester.get(commentsUrl, function successGetAllComments() {
+
+            },
+            function errorGetAllComments() {
+
+            });
     };
 
     var getSingleCommentForPhoto = function (photoId) {
@@ -67,32 +72,32 @@ var commentDao = (function () {
 var commentUtil = (function () {
     var generateCommentDom = function (parent) {
         /*
-        //Create text area for comment text.
-        var commentTextArea = $('<textarea />');
-        $(commentTextArea).addClass('form-control');
-        commentTextArea.attr('plceholder', "Enter comment here...");
-        commentTextArea.attr('rows', "2");
-        commentTextArea.attr('cols', "50");
+         //Create text area for comment text.
+         var commentTextArea = $('<textarea />');
+         $(commentTextArea).addClass('form-control');
+         commentTextArea.attr('plceholder', "Enter comment here...");
+         commentTextArea.attr('rows', "2");
+         commentTextArea.attr('cols', "50");
 
-        // Crate add button to add the comment.
-        var addCommentButton = $('<button />');
-        addCommentButton.text('Add comment');
-        $(addCommentButton).addClass('btn btn-default btn-sm');
-        addCommentButton.click(function () {
-            var commentText = commentAction.getCommentFromTextArea(commentTextArea);
-            if (commentText) {
-                $(commentTextArea).val('');
-                commentAction.addComment(commentText);
-            }
-        });
+         // Crate add button to add the comment.
+         var addCommentButton = $('<button />');
+         addCommentButton.text('Add comment');
+         $(addCommentButton).addClass('btn btn-default btn-sm');
+         addCommentButton.click(function () {
+         var commentText = commentAction.getCommentFromTextArea(commentTextArea);
+         if (commentText) {
+         $(commentTextArea).val('');
+         commentAction.addComment(commentText);
+         }
+         });
 
-        // Append text area and button to a wrapper.
-        var commentWrapper = $('<div />');
-        commentTextArea.appendTo(commentWrapper);
-        addCommentButton.appendTo(commentWrapper);
+         // Append text area and button to a wrapper.
+         var commentWrapper = $('<div />');
+         commentTextArea.appendTo(commentWrapper);
+         addCommentButton.appendTo(commentWrapper);
 
-        commentWrapper.appendTo(parent);
-        */
+         commentWrapper.appendTo(parent);
+         */
     };
 
     return {

@@ -2,38 +2,38 @@
 <div class="row">
     <div class="col-md-8" id="user-page">
         <h1 class="text-primary" id="user-wellcome-message"></h1>
+
         <p class="lead">What have you been up to? Welcome back to your photo album.</p>
     </div>
 </div>
 <!--albums-->
 <h1 class="text-primary">Albums</h1>
-<a href="#" id="create-album" class="btn btn-success" >New Album</a>
+<a href="#" id="create-album" class="btn btn-success">New Album</a>
 <h4>In order to see changes you hava applyed you should refresh the page!</h4>
 <!--button for adding new albums-->
-  <div class="col-md-4" id="new-album-dialog">
-            <div class="well">
-                <div class="album-input-form">
-                    <h3 class="text-success text-centre">New Album</h3>
-                </div>
-                <div class="album-input-form">
-                    <input type="text" class="form-control" id="inputTitle" placeholder="Title">
-                </div>
-                <div class="input-form">
-                    <input type="text" class="form-control" id="inputCategory" placeholder="Category">
-                </div>
-                <div class="album-input-form">
-                    <button type="button" id="close-dialog" class="btn btn-default">Cancel</button>
-                    <button type="button" class="btn btn-success " id="submit-new-album">Submit</button>
-                </div>
-            </div>
-            </div>
-  <!--album-folders-holder-->     
+<div class="col-md-4" id="new-album-dialog">
+    <div class="well">
+        <div class="album-input-form">
+            <h3 class="text-success text-centre">New Album</h3>
+        </div>
+        <div class="album-input-form">
+            <input type="text" class="form-control" id="inputTitle" placeholder="Title">
+        </div>
+        <div class="input-form">
+            <input type="text" class="form-control" id="inputCategory" placeholder="Category">
+        </div>
+        <div class="album-input-form">
+            <button type="button" id="close-dialog" class="btn btn-default">Cancel</button>
+            <button type="button" class="btn btn-success " id="submit-new-album">Submit</button>
+        </div>
+    </div>
+</div>
+<!--album-folders-holder-->
 <div class="jumbotron">
-<div class="row" id="album-folders-holder">
+    <div class="row" id="album-folders-holder">
+    </div>
 </div>
-</div>
+<script src="js/user.js"></script>
+<script src="js/album.js"></script>
 <script src="js/load-user-data.js"></script>
-<script>
-    commentUtil.generateCommentDom(document.body);
-</script>
 
