@@ -66,3 +66,7 @@
 #new-album-dialog {
     z-index: 99;
 }
+
+div.pop-up {
+    position: absolute;
+}

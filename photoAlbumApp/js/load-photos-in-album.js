@@ -85,7 +85,7 @@
                     var photoId = $(this).attr('data-id');
 
                     var $photoPopUpDiv = $('<div class="col-md-6 photo-popup-div" style="position: absolute">' +
-                        '<div class="well"><button type="button" class="btn btn-default download-photo">Download</button>'+
+                        '<div class="well pop-up"><button type="button" class="btn btn-default download-photo">Download</button>'+
                         '<button type="button" class="btn btn-default close-photo">Close</button>' +
                         // uncoment the following comment in order to name the files, but only if you upload only JPEGs
                         '<a href="' + src + '" download' /* + '="' + photoId + '.jpg"' */ + '>' +
