@@ -1,5 +1,8 @@
 (function() {
     $(function() {
+        // hide new album button
+        $('#new-album-dialog').hide();
+
         // get the curent user and display his data
         var currentUser = userSession.getCurrentUser();
         if (currentUser) {
@@ -11,6 +14,16 @@
             $('#user-wellcome-message').text('Hello there, ' + username);
         }
 
+        // display new album button on click 
+        $('#create-album').click(function() {
+            // show new album dialog and process data
+            $('#new-album-dialog').css({
+                position: 'fixed',
+                top: '20%',
+                left: '30%'
+            }).show();
+        });
+
         // load  all albums from database
         ajaxRequester.get('https://api.parse.com/1/classes/Album',
             albumLoadSuccess, ajaxError);
@@ -18,29 +31,27 @@
         // display albums title on user page
         function albumLoadSuccess(data) {
             // clear div if the page is already populated and user is reloading
-            $('#album-folders-holder').empty();
+            $('#album-folders-holder').html('');
             for (var a in data.results) {
                 //get each album's data
                 var album = data.results[a];
                 var albumName = album.name;
                 var albumRating = album.rating;
                 var albumViews = album.shows;
+                var albumCategory = album.category;
                 var albumID = album.objectId;
-                var albumCategoryID = album.category['objectId'];
-                var albumAthorID = album.author['objectId'];
+
+                var albumAthor = album.author;
+                var albumAthorID = albumAthor.objectId;
 
                 var $albumDiv = $('<div class="panel panel-primary col-md-3 album-folder">' +
                     '<div class="panel-heading"><h3 class="panel-title">Album: <a href="#" class="album-link">' +
                     albumName + '<a/></h3></div>');
 
-                   //add  data atrributes to albumDiv
+                //add  data atrributes to albumDiv
                 $albumDiv.attr('album-id', albumID);
-                $albumDiv.attr('category-id', albumCategoryID);
+                $albumDiv.attr('album-views', albumViews);
                 $albumDiv.attr('author-id', albumAthorID);
-
-                // get category with current id
-                ajaxRequester.get('https://api.parse.com/1/classes/Category/' + albumCategoryID,
-                    categoryLoadSuccess, ajaxError);
 
                 // get user(authors) with current id
                 ajaxRequester.get('https://api.parse.com/1/users/' + albumAthorID,
@@ -50,47 +61,103 @@
                 var ratingDiv =
                     '<div class="panel-body-div albumViews-holder">Rating:</div>' +
                     '<div class="progress albumViews-holder">' +
-                        '<div class="progress-bar progress-bar-success" role="progressbar" ' +
-                            'aria-valuenow="' + albumRating + '"' +
-                            'aria-valuemin="0" aria-valuemax="100" style="width:' +
-                            albumRating + '%">' + albumRating +
-                        '</div>' +
+                    '<div class="progress-bar progress-bar-success" role="progressbar" ' +
+                    'aria-valuenow="' + albumRating + '"' +
+                    'aria-valuemin="0" aria-valuemax="100" style="width:' +
+                    albumRating + '%">' + albumRating +
+                    '</div>' +
                     '</div>';
 
                 $albumDiv.append(ratingDiv);
-                
+
                 $albumDiv.append('<div class="panel-body-div albumViews-holder">Views: ' +
                     albumViews + '</div>');
+                 $albumDiv.append('<div class="panel-body-div albumCategory-holder">Category: ' +
+                    albumCategory + '</div>');
 
                 // add created album to album-div-holder
                 $('#album-folders-holder').append($albumDiv);
 
-                   // add eventhandler on album's title link for displaying photos
+                // add eventhandler on album's title link for displaying photos
                 $('.album-link').click(function() {
                     var album = $(this).parents('.album-folder');
-                    var albumID= album.attr('album-id');
-                    $('#main-page').attr('album-id', albumID);
+                    var albumId = album.attr('album-id');
+                    var albumViews = Number(album.attr('album-views'));
+                    var albumAuthor = album.attr('author-name');
+
+                    // increase album view on click with ajax request
+                    var data = {
+                        "shows": albumViews + 1
+                    };
+
+                    ajaxRequester.put('https://api.parse.com/1/classes/Album/' + albumId,
+                        data, votingSucces, ajaxError);
+
+                    $('#main-page').attr('album-author', albumAuthor);
+                    $('#main-page').attr('album-id', albumId);
                     $('#main-page').load('./partialHTML/photos-in-album.html');
                 });
             }
-        }
-
-        // display albums category on user page
-        function categoryLoadSuccess(data) {
-            var categoryName = data.name;
-            var categoryID = data.objectId;
-            var $albumCategory = $('<div class="panel-body-div albumCategory-holder">Category: <a href="#"> ' +
-                categoryName + '<a/></div>');
-            $("div").find("[category-id='" + categoryID + "']").append($albumCategory);
         }
 
         // display album's author(user) on user page
         function usersLoadSuccess(data) {
             var authorName = data.username;
             var authorID = data.objectId;
-            var $albumAuthor = $('<div class="panel-body-div albumAuthor-holder">Author: <a href="#"> ' +
+            var $albumAuthor = $('<div id="authorID" class="panel-body-div">Author: <a href="#"> ' +
                 authorName + '<a/></div>');
             $("div").find("[author-id='" + authorID + "']").append($albumAuthor);
+            $("div").find("[author-id='" + authorID + "']").attr('author-name', authorName);
+        }
+
+        function votingSucces() {
+
+        }
+
+        // process data on submiting new album request
+        $('#submit-new-album').click(function() {
+            var $newAlbumTitle = $('#inputTitle').val();
+            var $newAlbumCategory = $('#inputCategory').val();
+
+            // check if input is not empty or whitespacess string
+            if (/^\s*$/.test($newAlbumTitle) || /^\s*$/.test($newAlbumCategory)) {
+                fillAllDataError();
+                return;
+            }
+
+            // create data object for the request
+            var data = {
+                'name': $newAlbumTitle,
+                'category': $newAlbumCategory,
+                "author": {
+                    "__type": "Pointer",
+                    "className": "_User",
+                    "objectId": currentUser.objectId
+                },
+                'shows': 1,
+                'rating': 1,
+            };
+
+            ajaxRequester.post("https://api.parse.com/1/classes/Album", data,
+                albumAddedSuccess, ajaxError);
+
+            $('#inputTitle').val('');
+            $('#inputCategory').val('');
+        });
+
+        // hide dialog for new album on cancel button click
+        $('#close-dialog').click(function() {
+            $('#new-album-dialog').hide();
+        });
+
+        function albumAddedSuccess(data) {
+            noty({
+                text: 'Album created successfully',
+                type: 'success',
+                layout: 'center',
+                timeout: 2000
+            });
+            $('#new-album-dialog').hide();
         }
 
         // noty function for an AJAX request error
@@ -99,6 +166,16 @@
             noty({
                 text: 'Error: ' + errorMessage.error,
                 type: 'error',
+                layout: 'center',
+                timeout: 6000
+            });
+        }
+
+        // noty function for unfilled user data
+        function fillAllDataError() {
+            noty({
+                text: 'Please fill out all input fields.',
+                type: 'warning',
                 layout: 'center',
                 timeout: 2000
             });

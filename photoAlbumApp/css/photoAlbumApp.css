@@ -40,9 +40,29 @@
     float: left;
     margin-right: 5px;
 }
-
+/*
 #comment {
     border-radius: 4px;
     border-style: groove;
     height: 39px;
+}*/
+
+.comment-photo{
+    margin-top: 5px;
+}
+
+.delete-button {
+    margin-left:20px;
+}
+
+.album-input-form{
+    margin-top:10px;
+}
+
+.text-centre {
+    text-align: center;
+}
+
+#new-album-dialog {
+    z-index: 99;
 }
