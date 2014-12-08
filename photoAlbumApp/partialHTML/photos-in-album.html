@@ -42,12 +42,12 @@ var albumID = $('#main-page').attr('album-id');
                 return;
       }
 
-      //chekc if file format is allowed
-       var fileType = file.type;
-       if(fileType !== 'image/jpeg' || fileType !== 'image/png' || fileType !== 'image/gif' ){
-    	alert('file format not allowed');
-    	return;
-    }
+    //   //chekc if file format is allowed NOT WORKING 
+    //    var fileType = file.type;
+    //    if(fileType !== 'image/jpeg' || fileType !== 'image/png' || fileType !== 'image/gif' ){
+    // 	alert('file format not allowed');
+    // 	return;
+    // }
 
       // make th akax request for uploading the phot to parse.com server
       $.ajax({
