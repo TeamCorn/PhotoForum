@@ -12,6 +12,7 @@ var ajaxRequester = (function() {
             url: url,
             contentType: 'application/json',
             data: JSON.stringify(data) || undefined,
+            cache: false,
             success: success,
             error: error
         });
