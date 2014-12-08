@@ -69,20 +69,6 @@ $(function () {
 
             $('#album-photos-container').append($photoDiv);
 
-            $('a.vote-button').click(function () {
-                var $parent = $(this).parent();
-                var votes = Number($parent.find('span.votes').text());
-                var photoId = $parent.find('img.photo-image').attr('data-id');
-                var data = {
-                    'votes': votes + 1
-                };
-                ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
-                    data,
-                    photoVotingSuccess,
-                    ajaxError);
-                // $parent.find('span.votes').text(votes + 1);
-            });
-
             $('a.delete-button').click(function () {
                 var photoId = $(this).parent().find('img.photo-image').attr('data-id');
                 ajaxRequester.delete('https://api.parse.com/1/classes/Photo/' + photoId,
@@ -139,6 +125,20 @@ $(function () {
                 });
             });
         }
+
+        $('a.vote-button').click(function () {
+            var $parent = $(this).parent();
+            var votes = Number($parent.find('span.votes').text());
+            var photoId = $parent.find('img.photo-image').attr('data-id');
+            var data = {
+                'votes': votes + 1
+            };
+            ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
+                data,
+                photoVotingSuccess,
+                ajaxError);
+            // $parent.find('span.votes').text(votes + 1);
+        });
 
         function photoVotingSuccess() {
             noty({
