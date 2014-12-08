@@ -39,7 +39,7 @@
                 $photoLink.append($photoImage);
                 var $photoTitle = $('<div><h4>' + photoName + '</h4></div>');
                 var $photoVotes = $('<div>Votes:' + photoVotes + '</div>');
-                var $voteButton = $('<a href="#" class="btn btn-primary btn-xs">Vote+</a>');
+                var $voteButton = $('<a href="#" class="btn btn-primary btn-xs vote-button">Vote+</a>');
 
                 // append photDiv to current page
                 $photoDiv.append($photoLink);
@@ -54,6 +54,17 @@
                 }
 
                 $('#album-photos-container').append($photoDiv);
+
+                $('a.vote-button').click(function() {
+                    // TODO
+                    console.log('voted');
+                });
+
+                $('a.delete-button').click(function() {
+                    // TODO
+                    console.log('deleted');
+                });
+
 
                 // add eventhandler on photo image for pop-up in full-size
                 $('.photo-image').click(function() {
