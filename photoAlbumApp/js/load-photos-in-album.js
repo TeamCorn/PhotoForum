@@ -70,20 +70,6 @@
 
                 $('#album-photos-container').append($photoDiv);
 
-                $('a.vote-button').click(function() {
-                    var $parent = $(this).parent();
-                    var votes = Number($parent.find('span.votes').text());
-                    var photoId = $parent.find('img.photo-image').attr('data-id');
-                    var data = {
-                        'votes': votes + 1
-                    };
-                    ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
-                        data,
-                        photoVotingSuccess,
-                        ajaxError);
-                    // $parent.find('span.votes').text(votes + 1);
-                });
-
                 $('a.delete-button').click(function() {
                     var photoId = $(this).parent().find('img.photo-image').attr('data-id');
                     ajaxRequester.delete('https://api.parse.com/1/classes/Photo/' + photoId,
@@ -140,8 +126,24 @@
                     });
                 });
             }
+            // This should be outside the for loop.
+            $('a.vote-button').click(function() {
+                var $parent = $(this).parent();
+                var votesSpan = $parent.find('span.votes');
+                var votes = Number(votesSpan.text()) + 1;
+                var photoId = $parent.find('img.photo-image').attr('data-id');
+                var data = {
+                    'votes': votes
+                };
+                ajaxRequester.put('https://api.parse.com/1/classes/Photo/' + photoId,
+                    data,
+                    photoVotingSuccess(votesSpan, votes),
+                    ajaxError);
+                // $parent.find('span.votes').text(votes + 1);
+            });
 
-            function photoVotingSuccess() {
+            function photoVotingSuccess(votesSpan, numVotes) {
+                votesSpan.text(numVotes);
                 noty({
                     text: 'Your vote was successfully accepted!',
                     type: 'success',

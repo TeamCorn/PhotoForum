@@ -4,6 +4,7 @@
 var commentDao = (function () {
     var commentsUrl = 'https://api.parse.com/1/classes/Comment/';
 
+    //'where={"question":{"__type":"Pointer","className":"Photo","objectId":"5xM4PvoBB5"}}'
     var getAllCommentsForPhoto = function (photoId) {
         ajaxRequester.get(commentsUrl, function successGetAllComments() {
 
