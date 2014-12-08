@@ -1,7 +1,139 @@
 <!--photos-in-album-->
 <h1 class="text-primary" id="album-photos"></h1>
 <a href="#" id="back-to-albums" class="btn btn-success" >Back to albums</a>
-<a href="#" id="add-photo" class="btn btn-success" >Add Photo</a>
+<div id="add-photo">
+<h4>Add new photo</h4>
+<input type="file" id="files" name="files[]" multiple  value="Add Photo" />
+<output id="list"></output>
+Name: <input type="text" id="photo-name" placeholder="Photo name" />
+ <input id="uploadbutton" type="button" class="btn btn-success" value="Upload"/>
+</div>
+<script>
+// declare variable for storing the file and get the current albumID 
+var file;
+var albumID = $('#main-page').attr('album-id');
+
+  // get chosen file from input and display its conntent
+  function handleFileSelect(evt) {
+    var files = evt.target.files; 
+    file = files[0];
+   
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    // display file info on the page
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+  // add eventlistener on file chose
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+    // add event handler on upload button
+    $('#uploadbutton').click(function() {
+      var requestUrl = 'https://api.parse.com/1/files/' + file.name;
+      var photoTitle = $('#photo-name').val();
+
+      //check if photo title is empty string or white spaces
+      if (/^\s*$/.test(photoTitle)) {
+                fillAllDataError();
+                return;
+      }
+
+      //chekc if file format is allowed
+       var fileType = file.type;
+       if(fileType !== 'image/jpeg' || fileType !== 'image/png' || fileType !== 'image/gif' ){
+    	alert('file format not allowed');
+    	return;
+    }
+
+      // make th akax request for uploading the phot to parse.com server
+      $.ajax({
+        type: "POST",
+        beforeSend: function(request) {
+          request.setRequestHeader("X-Parse-Application-Id", 'rsxzvSeovqQxl6weoimkwl1E8JnvBEzYEQh7oKTl');
+          request.setRequestHeader("X-Parse-REST-API-Key", 'adMvMtZgee0wzmVfDFtDt64Rw4qCAehZjiGVfdov');
+          request.setRequestHeader("Content-Type", file.type);
+        },
+        url: requestUrl,
+        data: file,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          // on succes get the name of the uploaded file     	
+          var filename = data.name;
+          
+          // create the photo object to be posted 
+            var sendData = {
+                'name': "photo",
+                "file": {
+                    "__type": "File",
+                    "name": filename,
+                },
+                "album": {
+                    "__type": "Pointer",
+                    "className": "Album",
+                    "objectId": albumID
+                },
+                'votes': 0,
+            };
+            
+            // make the ajax post request for posting the photo in Phoot class 
+             ajaxRequester.post("https://api.parse.com/1/classes/Photo", sendData,
+                photoAddedSuccess, ajaxError);
+        },
+        error: function(data) {
+          var obj = jQuery.parseJSON(data);
+          alert(obj.error);
+        }
+      });
+          
+         // noty functon for photo added succesfuly
+         function photoAddedSuccess(data){
+              noty({
+                text: 'Photo successfuly added',
+                type: 'success',
+                layout: 'center',
+                timeout: 2000
+            });
+         }
+
+         // noty function for an AJAX request error
+        function ajaxError(error) {
+            var errorMessage = error.responseJSON;
+            noty({
+                text: 'Error: ' + errorMessage.error,
+                type: 'error',
+                layout: 'center',
+                timeout: 6000
+            });
+        }
+
+         // noty function for unfilled user data
+        function fillAllDataError() {
+            noty({
+                text: 'Please enter a title for the photo',
+                type: 'warning',
+                layout: 'center',
+                timeout: 2000
+            });
+        }
+
+         // noty function for not allowed file format
+        function fileFormatError() {
+            noty({
+                text: 'File format not allowed.Use gif/jpeg/png',
+                type: 'warning',
+                layout: 'center',
+                timeout: 2000
+            });
+        }
+    });
+</script>
+
+<h4>In order to see changes you hava applyed you should refresh the page!</h4>
 <div class="jumbotron">
     <div class="row" id="album-photos-container">
     </div>
