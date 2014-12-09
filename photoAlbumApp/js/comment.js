@@ -4,18 +4,30 @@
 var commentDao = (function () {
     var commentsUrl = 'https://api.parse.com/1/classes/Comment/';
 
-    //'where={"question":{"__type":"Pointer","className":"Photo","objectId":"5xM4PvoBB5"}}'
+    //'where={"photo":{"__type":"Pointer","className":"Photo","objectId":"5xM4PvoBB5"}}'
     var getAllCommentsForPhoto = function (photoId) {
-        ajaxRequester.get(commentsUrl, function successGetAllComments() {
+        var url = '?where={"photo":{"__type":"Pointer","className":"Photo","objectId":"' + photoId + '"}}';
 
-            },
-            function errorGetAllComments() {
-
+        ajaxRequester.get(commentsUrl + url,
+            function commentLoadSuccess(data) {
+                if (data) {
+                    var commentDiv = $('<div />');
+                    for (var currentComment in data.results) {
+                        var comment = data.results[currentComment];
+                        userDao.get(comment.user.objectId, comment, function successGetUser(data) {
+                            var commentData = comment.data;
+                            var userName = data.username;
+                            var commentWrapper = commentUtil.generateCommentDom(comment.data, data.username);
+                            commentDiv.append(commentWrapper);
+                            $('.pop-up').append(commentDiv);
+                        });
+                    }
+                }
             });
     };
 
     var getSingleCommentForPhoto = function (photoId) {
-        //TODO: Not implemented
+
     };
 
     var getTopRatedCommentForPhoto = function (photoId) {
@@ -40,6 +52,16 @@ var commentDao = (function () {
         ajaxRequester.post(commentsUrl, commentData,
             function addedCommentSuccessfully() {
                 // alert('Comment added successfully.');
+
+                userDao.get(commentData.user.objectId, commentData, function (data) {
+                    var commentWrapper = commentUtil.generateCommentDom(commentData.data, data.username);
+                    var commentDiv = $('<div />');
+                    commentDiv.append(commentWrapper);
+                    $('.pop-up').append(commentDiv);
+
+                });
+
+
                 noty({
                     text: 'Comment added successfully.',
                     type: 'success',
@@ -71,34 +93,19 @@ var commentDao = (function () {
  * Utility class to help build UI related stuff.
  */
 var commentUtil = (function () {
-    var generateCommentDom = function (parent) {
-        /*
-         //Create text area for comment text.
-         var commentTextArea = $('<textarea />');
-         $(commentTextArea).addClass('form-control');
-         commentTextArea.attr('plceholder', "Enter comment here...");
-         commentTextArea.attr('rows', "2");
-         commentTextArea.attr('cols', "50");
+    var generateCommentDom = function (commentText, username) {
+        var commentWrapper = $('<div />');
+        var commentSpan = $('<span />');
+        var usernameSpan = $('<span />');
+        /*userDao.get(comment.user, function () {
 
-         // Crate add button to add the comment.
-         var addCommentButton = $('<button />');
-         addCommentButton.text('Add comment');
-         $(addCommentButton).addClass('btn btn-default btn-sm');
-         addCommentButton.click(function () {
-         var commentText = commentAction.getCommentFromTextArea(commentTextArea);
-         if (commentText) {
-         $(commentTextArea).val('');
-         commentAction.addComment(commentText);
-         }
-         });
+         });*/
+        usernameSpan.text(username);
+        commentSpan.text(commentText);
 
-         // Append text area and button to a wrapper.
-         var commentWrapper = $('<div />');
-         commentTextArea.appendTo(commentWrapper);
-         addCommentButton.appendTo(commentWrapper);
-
-         commentWrapper.appendTo(parent);
-         */
+        commentWrapper.append(usernameSpan);
+        commentWrapper.append(commentSpan);
+        return commentWrapper;
     };
 
     return {

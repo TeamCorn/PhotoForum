@@ -11,7 +11,8 @@ var userDao = (function () {
     };
 
     // Get a single user from parse.com by given user id.
-    var getUserById = function (userId, success, error) {
+    //TODO: THis comment should be moved elsewhere
+    var getUserById = function (userId, comment, success, error) {
         var url = 'https://api.parse.com/1/users/' + userId;
 
         ajaxRequester.get(url, success, error);
