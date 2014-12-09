@@ -10,6 +10,8 @@
         // show button if current user is album's author
         if (userName === $('#main-page').attr('album-author')) {
             $('#add-photo').show();
+
+            appendDeleteAlbumButton(); 
         }
 
         // navigate user to home-user-page on clicking back to albums
@@ -23,6 +25,86 @@
         // get the album with the currentID
         ajaxRequester.get('https://api.parse.com/1/classes/Album/' + albumID,
             albumLoadSuccess, ajaxError);
+        
+        
+        // append delete album button
+        function appendDeleteAlbumButton() {
+            var delAlbum = $('#delete-album');
+            var deleteAlbumBtn = '<h4>Delete album</h4><button id="del-album" class="btn btn-success">Delete</button>';
+            $(deleteAlbumBtn).appendTo(delAlbum);
+            var albumId = $('#main-page').attr('album-id');
+            $('#del-album').on("click", { albumId: albumId }, deleteAlbum);
+        }
+        
+        function deleteAlbum(event) {
+            deleteAllAlbumImages(event.data.albumId);
+            
+            ajaxRequester.delete('https://api.parse.com/1/classes/Album/' + albumID,
+                    null,
+                    albumDeletingSuccess(albumID),
+                    ajaxError);
+        }
+        
+        function deleteAllAlbumImages(albumID) {
+            ajaxRequester.get('https://api.parse.com/1/classes/Photo?' +
+                'where={"album":{"__type":"Pointer","className":"Album","objectId":"' +
+                albumID + '"}}', photosGetSuccess, ajaxError);
+            
+            function photosGetSuccess(data) {
+                for (var info in data.results) {
+                    var photo = data.results[info];
+                    var imageID = photo.objectId
+                    deleteImage(imageID);
+                }
+            }
+            
+            function deleteImage(imageID) {
+                deleteAllImageComments(imageID);
+                
+                ajaxRequester.delete('https://api.parse.com/1/classes/Photo/' + imageID,
+                        null,
+                        function () { console.log("Image deleted") },
+                        ajaxError);
+            }
+            
+            function deleteAllImageComments(imageID) {
+                ajaxRequester.get('https://api.parse.com/1/classes/Comment?' +
+                'where={"photo":{"__type":"Pointer","className":"Photo","objectId":"' +
+                imageID + '"}}', commentsGetSuccess, ajaxError);
+                
+                function commentsGetSuccess(data) {
+                    for (var info in data.results) {
+                        var comment = data.results[info];
+                        var commentID = comment.objectId
+                        deleteComment(commentID);
+                    }
+                }
+                
+                function deleteComment(commentID) {
+                    ajaxRequester.delete('https://api.parse.com/1/classes/Comment/' + commentID,
+                        null,
+                        function () { console.log("Comment deleted") },
+                        ajaxError);
+                }
+            }
+        }
+        
+        function albumDeletingSuccess(albumID) {
+            noty({
+                text: 'The album was successfully deleted!',
+                type: 'success',
+                layout: 'center',
+                timeout: 2000
+            });
+            
+            /*var parent = $("div").find("[album-id='" + albumID + "']");
+            newDiv = 'div id = "main-page" album-author="max mara"><a id="back-to-albums" class="btn btn-success" href="#">Back to albums</a>';
+            $(newDiv).prependTo(parent);*/
+            $("div").find("[album-id='" + albumID + "']").remove();
+            
+        }
+        
+        
 
         // display album name on page
         function albumLoadSuccess(data) {
