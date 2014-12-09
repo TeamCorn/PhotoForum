@@ -93,7 +93,7 @@ var albumUtil = (function () {
         var albumDiv = createAlbumDivWrapper(album);
 
         var userUrl = albumDiv.attr('author-id');
-        userDao.get(userUrl, usersLoadSuccess, function usersLoadError() {
+        userDao.get(userUrl, null, usersLoadSuccess, function usersLoadError() {
             // TODO: Handle error.
         });
 
